@@ -129,4 +129,4 @@ STATIC_URL = '/static/'
 try:
     from querying_lab.local_settings import *
 except ImportError:
-    pass
+    raise ImportError("local settings not found")
