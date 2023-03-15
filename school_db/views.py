@@ -154,14 +154,14 @@ SELECT `school_db_instructor`.`id`,
 # Print the instructors name and courses that he belongs to in the terminal
 # (Do not hard code his name in the print)
 def problem_three(request):
-    instructor2 = Instructor.objects.filter(id=2)
+    instructor2 = Instructor.objects.get(id=2)
     courses = Course.objects.filter(instructor_id=2)
 
-    print(f"Instructor Name: {instructor2}")
+    print(f"Instructor Name: {instructor2.first_name} {instructor2.last_name}")
 
     print("Courses:")
     for course in courses:
-        print(f"- {course.name}")
+        print(f"    - {course.name}")
 
     return complete(request)
 
