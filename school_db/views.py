@@ -16,10 +16,11 @@ def example_solution(request):
 
     for student in students:
         print(
-            f'First Name: {student.first_name} Last Name: {student.last_name} GPA: {student.gpa}')
+            f"First Name: {student.first_name} Last Name: {student.last_name} GPA: {student.gpa}")
 
     return complete(request)
 
+# Needs debugger running to have http://127.0.0.1:8000/lab/ running
 
 # Supporting Query Method Documentation:
 """
@@ -55,9 +56,18 @@ SELECT `school_db_student`.`id`,
 
 
 # Find all students who have a GPA greater than 3.0.
+
 # Order the data by highest GPAs first (descending).
 # Print out each student's full name and gpa to the terminal
 def problem_one(request):
+    students = Student.objects.filter(gpa__gt=3).order_by("-gpa")
+    #or use F function
+      # from django.db.models import F
+      # students = Student.objects.filter(gpa__gt=3).order_by(F('gpa').desc())
+        # Can't get .desc() to work otherwise
+
+    for student in students:
+        print(f"Full Name: {student.first_name} {student.last_name} GPA: {student.gpa}")
 
     return complete(request)
 
@@ -97,6 +107,12 @@ SELECT `school_db_student`.`id`,
 # Order by hire date ascending
 # Print out the instructor's full name and hire date to the terminal
 def problem_two(request):
+
+    instructors = Instructor.objects.filter(hire_date__year__lt=2010) # .order_by("hire_date") not needed, asc is default
+
+    for instructor in instructors:
+        print(f"Full Name: {instructor.first_name} {instructor.last_name}")
+        print(f"Hire Date: {instructor.hire_date}\n")
 
     return complete(request)
 
@@ -138,6 +154,14 @@ SELECT `school_db_instructor`.`id`,
 # Print the instructors name and courses that he belongs to in the terminal
 # (Do not hard code his name in the print)
 def problem_three(request):
+    instructor2 = Instructor.objects.filter(id=2)
+    courses = Course.objects.filter(instructor_id=2)
+
+    print(f"Instructor Name: {instructor2}")
+
+    print("Courses:")
+    for course in courses:
+        print(f"- {course.name}")
 
     return complete(request)
 
