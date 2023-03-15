@@ -261,7 +261,7 @@ SELECT COUNT(*) AS `__count`
 # NOTE every time you execute this function a duplicate student will be created with a different primary key number
 def problem_five(request):
 
-    new_student = Student.objects.create(first_name="Bruce", last_name="Springsteen", year = 2000, gpa = 1.1)
+    new_student = Student.objects.create(first_name="Kyle", last_name="Harwood", year = 9, gpa = 3.5)
     print(f"ID: {new_student.pk}")
     print(f"Full Name: {new_student.first_name} {new_student.last_name}")
     print(f"Year: {new_student.year}")
@@ -294,13 +294,27 @@ VALUES ('Kyle', 'Harwood', 9, 3.0)
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 
-# Query the previoiusly created student by the id and update the "gpa" to a new value
+# Query the previously created student by the id and update the "gpa" to a new value
 # Then query the studets table to get that student by their id
 # Print the new student's id, full name, and gpa to the terminal
 def problem_six(request):
 
     # Make sure to set this equal to the primary key of the row you just created!
-    student_id = 11
+    
+    students = Student.objects.filter(pk=12)
+    # Have to update manually each time I do this, since it will not re-assign
+    # deleted pk #s.
+    students.update(gpa=3.5)
+    student = students.first()
+
+    # Alternative
+    # student = Student.objects.get(pk=11)
+    # student.gpa=3.5
+    # student.save()
+
+    print(f"ID: {student.pk}")
+    print(f"Full Name: {student.first_name} {student.last_name}")
+    print(f"GPA: {student.gpa}")
 
     return complete(request)
 
@@ -347,12 +361,14 @@ LIMIT 21
 def problem_seven(request):
 
     # Make sure to set this equal to the primary key of the row you just created!
-    student_id = 11
+    student_id=12
+    Student.objects.filter(pk=student_id).delete()
 
     try:
         student = Student.objects.get(pk=student_id)
     except ObjectDoesNotExist:
         print('Great! It failed and couldnt find the object because we deleted it!')
+        #Why is this printing even when it finds and deletes it?
 
     return complete(request)
 
