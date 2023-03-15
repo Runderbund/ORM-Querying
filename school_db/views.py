@@ -308,7 +308,7 @@ def problem_six(request):
     student = students.first()
 
     # Alternative
-    # student = Student.objects.get(pk=11)
+    # student = Student.objects.get(pk=12)
     # student.gpa=3.5
     # student.save()
 
