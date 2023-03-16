@@ -408,6 +408,13 @@ SELECT `school_db_student`.`id`,
 # Find all of the instructors that only belong to a single course
 # Print out the instructors full name and number of courses to the console
 def bonus_problem(request):
+    # Makes a count for each instructor based on the reverse relationship using
+    # the foreign key "instructor" from the Course model.
+    # Filters where the course count is a single course and prints the instructor names.
+    instructor_courses = Instructor.objects.annotate(course_load = Count('course'))
+    single_course_instructors = instructor_courses.filter(course_load = 1)
+    for instructor in single_course_instructors:
+        print(f"Instructor Name: {instructor.first_name} {instructor.last_name}")
 
     return complete(request)
 
